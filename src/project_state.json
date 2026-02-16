@@ -1,0 +1,860 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 53,
+  "summary": "Build \"Aspen Calm,\" a glassmorphic, responsive iPad patient immersion portal for Aspen Dental Care that provides audio/visual \"digital sedation\" and entertainment tailored by age, anxiety level, mood, and language, with clinical safety controls and staff monitoring for Bose QuietComfort/Ultra headsets.",
+  "architectural_notes": [
+    "UI must be a responsive iPad prototype using a glassmorphic design language; interactions must be single-finger friendly for reclining patients.",
+    "Brand palette: Deep Plum #4E345A (primary/buttons), Champagne Gold #D4AF37 (premium + Nurse Help icon), Mist Grey #F5F5F7 (background).",
+    "Personalization logic: content and layout should change meaningfully by age group, anxiety level, mood choice, and language.",
+    "If anxiety >=7, primary recommendations must be Sonic Shield (brown noise) and Deep Zen (5Hz binaural).",
+    "Integrations expected via APIs or web-views: Spotify/Apple Music/YouTube Music for audio; Netflix/Prime/Disney+ Hotstar/YouTube/Kids for video; separate service icons.",
+    "Clinical safety requirement: staff-set password-protected master volume cap + prominent one-touch mute/pause interruption.",
+    "Staff-only controls should be hidden behind an access mechanism and include Bose headset battery monitoring and subscription/account management.",
+    "Do not present sign-in/auth options in the patient-facing prototype UX.",
+    "Add Bose QuietComfort Ultra pairing/connection UI using Web Bluetooth API: Bluetooth icon initiates pairing; show real-time connection status in the top bar with an animated \"connecting\" indicator that transitions to \"connected\".",
+    "Emergency Talk (Mute & Pause All) control should not appear on the first selection/intake page; it should only be shown/enabled after a user selects playable audio/video content (media-selected/playing context)."
+  ],
+  "known_issues": [
+    "Intake selections (Kids/Teens/Adults/Seniors etc.) do not currently affect routing/content; user always lands on the same dashboard/module, undermining personalization.",
+    "Audio Pharmacy tracks are not playing audio in the current build.",
+    "Kids-safe section does not successfully open YouTube Kids as intended.",
+    "Visual Escapes (Virtual Window, Ocean/Nature) access/playback is unclear or non-functional; should play videos on the iPad.",
+    "Regional language Spotify links in Regional Radio & Hits open incorrect pages/playlists; language tiles are not mapped to correct-language content.",
+    "Cinema/OTT module options are empty in current build (provider tiles not present or not loading).",
+    "Audio Pharmacy module shows \"failed to load\" in current build (module content not loading).",
+    "Patients currently cannot access/play the Audio Pharmacy core programs (Deep Zen, Garden Escape, Sonic Shield); need reliable access via local iPad files and/or YouTube fallback.",
+    "Back/Front page toggle in the top bar is not functioning in the current build.",
+    "Calm voice welcome/introduction audio is not playing in the current build."
+  ],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-create-a-responsive-ipad-first-ui-for-aspen-calm-using-a-glassmorphic-modern-twilight-visual-theme-and-apply-it-consistently-across-all-screens-deep-plum-4e345a-as-the-primary-brand-action-color-champagne-gold-d4af37-as-the-premium-accent-color-including-nurse-help-icon-and-mist-grey-f5f5f7-as-the-neutral-base-background",
+      "title": "Create a responsive iPad-first UI for “Aspen Calm” using a glassmorphic “Modern Twilight” visual theme and apply it consistently across all screens: Deep Plum (#4E345A) as the primary brand/action color, Champagne Gold (#D4AF37) as the premium/accent color (including Nurse Help icon), and Mist Grey (#F5F5F7) as the neutral base background.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-phase-1-intake-flow-that-guides-a-patient-through-1-patient-profile-selection-with-large-thumb-friendly-icons-for-kids-teens-adults-seniors-2-anxiety-slider-on-a-1-10-scale-3-mood-gate-with-three-options-i-want-to-relax-i-want-to-be-distracted-i-want-to-listen-4-vibe-selector-with-escape-focus-nurture-persist-the-selected-intake-state-for-the-session-and-use-it-to-tailor-what-content-is-shown-on-the-dashboard",
+      "title": "Implement a Phase 1 Intake flow that guides a patient through: (1) Patient Profile selection with large thumb-friendly icons for Kids, Teens, Adults, Seniors; (2) Anxiety slider on a 1–10 scale; (3) Mood Gate with three options (“I want to Relax”, “I want to be Distracted”, “I want to Listen”); (4) Vibe Selector with “Escape”, “Focus”, “Nurture”. Persist the selected intake state for the session and use it to tailor what content is shown on the dashboard.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-language-selection-control-represented-by-a-language-globe-icon-that-allows-choosing-kannada-hindi-telugu-tamil-or-english-the-selected-language-must-affect-a-interface-language-preference-state-even-if-ui-text-remains-in-english-for-phase-1-prototype-and-b-the-default-ordering-labels-of-regional-music-tiles-playlists-shown-on-the-dashboard",
+      "title": "Add a Language selection control represented by a “Language Globe” icon that allows choosing Kannada, Hindi, Telugu, Tamil, or English. The selected language must affect (a) interface language preference state (even if UI text remains in English for Phase 1 prototype) and (b) the default ordering/labels of regional music tiles/playlists shown on the dashboard.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-enforce-anxiety-based-recommendations-if-anxiety-is-7-or-higher-the-dashboard-must-prominently-and-persistently-recommend-the-sonic-shield-brown-noise-and-deep-zen-5hz-binaural-beats-as-the-primary-audio-options-with-these-options-visually-prioritized-over-other-audio-choices",
+      "title": "Enforce anxiety-based recommendations: if Anxiety is 7 or higher, the dashboard must prominently and persistently recommend “The Sonic Shield” (Brown Noise) and “Deep Zen” (5Hz binaural beats) as the primary audio options, with these options visually prioritized over other audio choices.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-phase-2-main-dashboard-multi-channel-suite-composed-of-large-tappable-tiles-that-route-to-their-respective-modules-1-the-cinema-ott-2-regional-radio-hits-3-audio-pharmacy-4-visual-escapes-tailor-tile-order-featured-content-and-default-sub-selections-based-on-profile-kids-teens-adults-seniors-mood-gate-choice-vibe-anxiety-level-and-language",
+      "title": "Build a Phase 2 Main Dashboard (“Multi-Channel Suite”) composed of large, tappable tiles that route to their respective modules: (1) The Cinema (OTT), (2) Regional Radio & Hits, (3) Audio Pharmacy, (4) Visual Escapes. Tailor tile order, featured content, and default sub-selections based on profile (Kids/Teens/Adults/Seniors), mood gate choice, vibe, anxiety level, and language.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-audio-pharmacy-module-with-at-least-these-options-a-the-sonic-shield-a-long-form-gapless-style-brown-noise-playback-experience-prototype-may-loop-a-local-audio-asset-seamlessly-b-deep-zen-5hz-binaural-beats-playback-prototype-via-local-audio-asset-c-garden-escape-432hz-rainforest-ambient-piano-prototype-via-local-audio-asset-provide-a-simple-now-playing-screen-with-large-controls-play-pause-stop-volume-display-and-clear-labeling",
+      "title": "Implement the Audio Pharmacy module with at least these options: (a) The Sonic Shield: a long-form/gapless-style Brown Noise playback experience (prototype may loop a local audio asset seamlessly), (b) Deep Zen: 5Hz binaural beats playback (prototype via local audio asset), (c) Garden Escape: 432Hz rainforest + ambient piano (prototype via local audio asset). Provide a simple Now Playing screen with large controls (Play/Pause, Stop, Volume display) and clear labeling.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-regional-radio-hits-module-with-playlist-groupings-by-language-and-by-age-mood-provide-separate-service-icons-spotify-youtube-music-apple-music-and-per-playlist-open-actions-that-either-a-open-an-embedded-web-view-iframe-when-allowed-or-b-open-a-new-tab-to-a-configured-url-include-example-playlist-categories-like-latest-kannada-hits-and-bollywood-classics-plus-upbeat-active-distraction-options",
+      "title": "Implement the Regional Radio & Hits module with playlist groupings by language and by age/mood. Provide separate service icons (Spotify, YouTube Music, Apple Music) and per-playlist “Open” actions that either (a) open an embedded web view/iframe when allowed or (b) open a new tab to a configured URL. Include example playlist categories like “Latest Kannada Hits” and “Bollywood Classics”, plus upbeat/active distraction options.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-cinema-ott-module-with-separate-large-icons-for-netflix-amazon-prime-video-and-disney-hotstar-and-support-launching-each-provider-via-an-embedded-web-view-iframe-or-external-link-prototype-add-a-continue-watching-shortcut-section-that-remembers-the-last-selected-provider-and-last-opened-title-link-for-the-current-patient-session-and-for-frequent-patients-when-the-same-profile-is-reused-locally",
+      "title": "Implement the Cinema (OTT) module with separate large icons for Netflix, Amazon Prime Video, and Disney+ Hotstar, and support launching each provider via an embedded web view/iframe or external link (prototype). Add a “Continue Watching” shortcut section that remembers the last selected provider and last opened title/link for the current patient session (and for “frequent patients” when the same profile is reused locally).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-visual-escapes-module-with-curated-entries-such-as-virtual-window-4k-silent-landscape-footage-and-ocean-nature-4k-plus-a-kids-safe-entry-kids-tv-that-routes-to-a-safe-filtered-experience-prototype-via-curated-whitelisted-urls-and-clear-labeling",
+      "title": "Implement the Visual Escapes module with curated entries such as “Virtual Window” (4K silent landscape footage) and “Ocean/Nature 4K”, plus a Kids-safe entry (“Kids TV”) that routes to a safe-filtered experience (prototype via curated, whitelisted URLs and clear labeling).",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-clinical-safety-control-features-1-safe-volume-lock-a-password-protected-staff-setting-for-a-master-volume-cap-prototype-cap-the-in-app-player-volume-controls-and-show-a-lock-indicator-when-capped-2-one-touch-emergency-talk-mute-pause-button-a-prominent-high-contrast-control-available-on-all-media-screens-that-instantly-pauses-video-and-mutes-pauses-audio",
+      "title": "Add Clinical Safety & Control features: (1) Safe-Volume Lock: a password-protected staff setting for a “Master Volume Cap” (prototype: cap the in-app player volume controls and show a lock indicator when capped), (2) One-Touch Emergency “Talk” / “Mute & Pause” button: a prominent, high-contrast control available on all media screens that instantly pauses video and mutes/pauses audio.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-hidden-staff-dashboard-panel-accessed-via-a-discreet-gesture-entry-passcode-for-aspen-dental-care-staff-to-a-view-and-manually-update-bose-headset-battery-levels-prototype-data-model-b-manage-premium-subscription-toggles-which-unlock-premium-labeled-content-and-gold-accents-and-c-manage-choose-which-ott-accounts-providers-are-enabled-on-the-device",
+      "title": "Create a hidden Staff Dashboard panel (accessed via a discreet gesture/entry + passcode) for Aspen Dental Care staff to: (a) view and manually update Bose headset battery levels (prototype data model), (b) manage premium subscription toggles (which unlock “Premium” labeled content and gold accents), and (c) manage/choose which OTT accounts/providers are enabled on the device.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-onboarding-welcome-guidance-that-patients-can-read-quickly-before-sitting-in-the-chair-include-a-premium-feeling-welcome-message-short-step-by-step-prompts-on-the-intake-screens-and-clear-what-happens-next-guidance-before-entering-the-dashboard-ensure-all-interaction-elements-are-large-and-comfortable-for-a-reclining-patient-using-one-finger",
+      "title": "Add onboarding/welcome guidance that patients can read quickly before sitting in the chair: include a premium-feeling welcome message, short step-by-step prompts on the intake screens, and clear “What happens next” guidance before entering the dashboard. Ensure all interaction elements are large and comfortable for a reclining patient using one finger.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-an-offline-friendly-download-to-this-ipad-prototype-experience-for-select-non-drm-content-allow-users-to-mark-specific-audio-pharmacy-tracks-and-selected-visual-escape-videos-as-available-offline-implemented-as-bundled-local-assets-for-the-prototype-and-clearly-indicate-what-is-available-offline-vs-requires-internet",
+      "title": "Provide an offline-friendly “Download to this iPad” prototype experience for select non-DRM content: allow users to mark specific Audio Pharmacy tracks and selected Visual Escape videos as “Available Offline” (implemented as bundled local assets for the prototype) and clearly indicate what is available offline vs requires internet.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-all-patient-facing-sign-in-authentication-entry-points-so-the-app-is-usable-immediately-without-requiring-internet-identity-login-including-removing-the-intake-welcome-step-that-blocks-progress-until-authenticated-and-removing-any-logout-sign-in-ui-controls-from-the-top-bar",
+      "title": "Remove all patient-facing sign-in / authentication entry points so the app is usable immediately without requiring Internet Identity login, including removing the Intake welcome step that blocks progress until authenticated and removing any logout/sign-in UI controls from the top bar.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-intake-selections-kids-teens-adults-seniors-anxiety-mood-vibe-are-meaningfully-reflected-in-the-post-intake-experience-rather-than-feeling-redundant-at-minimum-the-dashboard-must-clearly-reflect-the-chosen-profile-mood-vibe-and-adapt-module-ordering-and-or-featured-copy-based-on-these-choices-not-only-anxiety",
+      "title": "Ensure the intake selections (Kids/Teens/Adults/Seniors, anxiety, mood, vibe) are meaningfully reflected in the post-intake experience rather than feeling redundant; at minimum, the dashboard must clearly reflect the chosen profile/mood/vibe and adapt module ordering and/or featured copy based on these choices (not only anxiety).",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-audio-pharmacy-playback-so-the-three-included-programs-reliably-play-audible-audio-on-ipad-safari-when-the-user-taps-play-including-handling-playback-promise-failures-and-ensuring-the-referenced-audio-assets-are-present-and-correctly-loadable-from-the-frontend-static-assets-path",
+      "title": "Fix Audio Pharmacy playback so the three included programs reliably play audible audio on iPad/Safari when the user taps Play, including handling playback promise failures and ensuring the referenced audio assets are present and correctly loadable from the frontend static assets path.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-kids-safe-experience-in-visual-escapes-so-that-selecting-kids-tv-reliably-opens-youtube-kids-from-an-ipad-in-a-way-that-is-not-blocked-by-pop-up-restrictions-prefer-an-in-app-embedded-view-when-possible-with-a-graceful-fallback-if-embedding-is-not-allowed",
+      "title": "Fix the Kids Safe experience in Visual Escapes so that selecting “Kids TV” reliably opens YouTube Kids from an iPad in a way that is not blocked by pop-up restrictions (prefer an in-app embedded view when possible, with a graceful fallback if embedding is not allowed).",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-virtual-window-and-ocean-nature-clearly-accessible-and-playable-as-on-device-offline-capable-videos-within-the-visual-escapes-module-by-ensuring-the-local-video-sources-load-correctly-from-bundled-assets-and-the-playback-ui-is-obvious-from-the-dashboard-route-through-visual-escapes",
+      "title": "Make Virtual Window and Ocean & Nature clearly accessible and playable as on-device (offline-capable) videos within the Visual Escapes module by ensuring the local video sources load correctly from bundled assets and the playback UI is obvious from the dashboard route through Visual Escapes.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-regional-radio-hits-spotify-playlist-urls-so-that-each-language-tab-kannada-hindi-telugu-tamil-english-opens-playlist-pages-that-match-the-selected-language-and-ensure-no-language-tile-links-to-a-mismatched-language-spotify-page",
+      "title": "Fix the Regional Radio & Hits Spotify playlist URLs so that each language tab (Kannada, Hindi, Telugu, Tamil, English) opens playlist pages that match the selected language, and ensure no language tile links to a mismatched-language Spotify page.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-populate-the-cinema-module-with-working-provider-tiles-so-the-screen-is-not-empty-including-at-minimum-netflix-amazon-prime-video-disney-hotstar-and-youtube-each-tile-must-open-the-corresponding-provider-website-when-tapped",
+      "title": "Populate the Cinema module with working provider tiles so the screen is not empty, including at minimum Netflix, Amazon Prime Video, Disney+ Hotstar, and YouTube; each tile must open the corresponding provider website when tapped.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-audio-pharmacy-failed-to-load-audio-issue-so-the-built-in-programs-the-sonic-shield-deep-zen-garden-escape-reliably-load-and-play-on-ipad-safari-using-bundled-local-audio-assets-with-clear-error-messaging-only-when-assets-truly-cannot-be-loaded",
+      "title": "Fix the Audio Pharmacy 'Failed to load audio' issue so the built-in programs (The Sonic Shield, Deep Zen, Garden Escape) reliably load and play on iPad Safari using bundled/local audio assets, with clear error messaging only when assets truly cannot be loaded.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-audio-pharmacy-options-that-let-the-user-a-play-a-locally-selected-audio-file-from-the-device-via-a-file-picker-and-b-open-curated-spotify-collections-playlists-from-within-the-audio-pharmacy-module-as-an-internet-based-fallback",
+      "title": "Add Audio Pharmacy options that let the user (a) play a locally selected audio file from the device via a file picker and (b) open curated Spotify collections/playlists from within the Audio Pharmacy module as an internet-based fallback.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-audio-pharmacy-built-in-programs-so-that-the-sonic-shield-deep-zen-and-garden-escape-reliably-play-on-ipad-safari-from-bundled-local-audio-assets-no-repeated-unable-to-play-audio-please-tap-play-again-to-start-loop-including-improving-playback-start-reliability-when-the-user-taps-play",
+      "title": "Fix the Audio Pharmacy built-in programs so that The Sonic Shield, Deep Zen, and Garden Escape reliably play on iPad/Safari from bundled/local audio assets (no repeated “Unable to play audio. Please tap Play again to start.” loop), including improving playback start reliability when the user taps Play.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-youtube-based-fallback-path-for-the-three-audio-pharmacy-programs-so-patients-can-open-ideal-calming-alternatives-online-when-local-playback-is-unavailable-including-curated-youtube-links-search-presets-for-432hz-garden-escape-4-5hz-binaural-deep-zen-and-brown-noise-nature-sounds-the-sonic-shield",
+      "title": "Add a YouTube-based fallback path for the three Audio Pharmacy programs so patients can open ideal calming alternatives online when local playback is unavailable, including curated YouTube links/search presets for: 432Hz (Garden Escape), 4–5Hz binaural (Deep Zen), and brown noise/nature sounds (The Sonic Shield).",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-the-audio-pharmacy-built-in-program-fallback-so-that-when-local-audio-playback-fails-the-sonic-shield-deep-zen-garden-escape-the-app-offers-a-smooth-in-app-switch-to-the-youtube-fallback-without-requiring-the-user-to-manually-navigate-away-from-the-now-playing-experience",
+      "title": "Improve the Audio Pharmacy built-in program fallback so that when local audio playback fails (The Sonic Shield, Deep Zen, Garden Escape), the app offers a smooth in-app switch to the YouTube fallback without requiring the user to manually navigate away from the Now Playing experience.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-back-front-toggle-switch-on-every-major-page-intake-dashboard-audio-pharmacy-now-playing-regional-radio-cinema-visual-escapes-staff-dashboard-that-lets-the-user-switch-between-front-and-back-display-modes-for-the-current-page-and-persist-the-selection-for-the-session",
+      "title": "Add a Back/Front toggle switch on every major page (Intake, Dashboard, Audio Pharmacy, Now Playing, Regional Radio, Cinema, Visual Escapes, Staff Dashboard) that lets the user switch between “Front” and “Back” display modes for the current page, and persist the selection for the session.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-topbar-front-back-display-mode-toggle-so-it-reliably-changes-the-current-page-s-display-mode-when-tapped-and-the-change-is-visibly-reflected-immediately-not-just-stored-ensure-the-selected-state-front-vs-back-is-clearly-indicated-and-the-selection-persists-for-the-current-route-during-the-session",
+      "title": "Fix the TopBar Front/Back display-mode toggle so it reliably changes the current page’s display mode when tapped and the change is visibly reflected immediately (not just stored). Ensure the selected state (Front vs Back) is clearly indicated and the selection persists for the current route during the session.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-premium-theme-matching-selected-glow-treatment-and-apply-it-consistently-to-selection-controls-across-the-app-including-a-intake-profile-selection-kids-teens-adults-seniors-b-intake-mood-selection-c-intake-vibe-selection-and-d-any-other-ui-elements-that-represent-a-selected-toggled-state-including-the-front-back-toggle-s-active-button-the-glow-must-use-the-existing-aspen-calm-theme-palette-champagne-gold-accent-deep-plum-and-remain-legible-in-light-dark-modes",
+      "title": "Add a premium, theme-matching ‘selected’ glow treatment and apply it consistently to selection controls across the app, including: (a) Intake profile selection (Kids/Teens/Adults/Seniors), (b) Intake mood selection, (c) Intake vibe selection, and (d) any other UI elements that represent a selected/toggled state (including the Front/Back toggle’s active button). The glow must use the existing Aspen Calm theme palette (Champagne Gold accent + Deep Plum) and remain legible in light/dark modes.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-visual-escapes-so-that-tapping-play-video-for-virtual-window-and-ocean-nature-4k-always-results-in-playback-if-the-local-bundled-videos-do-not-load-play-or-are-missing-automatically-fall-back-to-opening-curated-ideal-youtube-videos-for-each-option-in-an-embedded-view-when-feasible-otherwise-via-a-user-initiated-external-open",
+      "title": "Fix Visual Escapes so that tapping “Play Video” for “Virtual Window” and “Ocean & Nature 4K” always results in playback. If the local bundled videos do not load/play (or are missing), automatically fall back to opening curated, ‘ideal’ YouTube videos for each option (in an embedded view when feasible, otherwise via a user-initiated external open).",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-bluetooth-pairing-control-to-the-topbar-that-allows-the-user-to-initiate-pairing-with-bose-quietcomfort-ultra-headphones-and-see-real-time-connection-status",
+      "title": "Add a Bluetooth pairing control to the TopBar that allows the user to initiate pairing with Bose QuietComfort Ultra headphones and see real-time connection status.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-web-bluetooth-connection-logic-and-state-management-for-the-bose-quietcomfort-ultra-pairing-flow-including-a-graceful-fallback-for-browsers-that-do-not-support-web-bluetooth",
+      "title": "Implement Web Bluetooth connection logic and state management for the Bose QuietComfort Ultra pairing flow, including a graceful fallback for browsers that do not support Web Bluetooth.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-topbar-front-back-display-mode-toggle-so-it-works-reliably-when-tapped-tapping-front-must-immediately-set-display-mode-to-front-for-the-current-route-and-update-the-ui-active-state-tapping-back-must-immediately-set-display-mode-to-back-for-the-current-route-and-update-the-ui-active-state",
+      "title": "Fix the TopBar Front/Back display-mode toggle so it works reliably when tapped: tapping Front must immediately set display mode to \"Front\" for the current route and update the UI active state; tapping Back must immediately set display mode to \"Back\" for the current route and update the UI active state.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-front-back-toggle-in-the-topbar-to-use-clear-icon-buttons-with-accessible-english-labels-for-front-and-back-and-ensure-the-icons-correctly-reflect-the-selected-active-state",
+      "title": "Update the Front/Back toggle in the TopBar to use clear icon buttons (with accessible English labels) for Front and Back, and ensure the icons correctly reflect the selected/active state.",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-prominent-thumb-friendly-back-navigation-control-that-is-available-on-every-major-patient-facing-and-staff-page-intake-dashboard-audio-pharmacy-now-playing-regional-radio-cinema-visual-escapes-staff-dashboard-so-users-can-easily-return-when-they-are-inside-modules",
+      "title": "Add a prominent, thumb-friendly Back navigation control that is available on every major patient-facing and staff page (Intake, Dashboard, Audio Pharmacy, Now Playing, Regional Radio, Cinema, Visual Escapes, Staff Dashboard) so users can easily return when they are inside modules.",
+      "reqIds": [
+        "REQ-36"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-back-navigation-behavior-so-the-back-control-returns-the-user-to-the-previous-in-app-route-when-possible-if-there-is-no-valid-in-app-history-entry-it-must-fall-back-to-a-sensible-default-dashboard-for-modules-intake-for-dashboard",
+      "title": "Implement Back navigation behavior so the Back control returns the user to the previous in-app route when possible; if there is no valid in-app history entry, it must fall back to a sensible default (Dashboard for modules; Intake for Dashboard).",
+      "reqIds": [
+        "REQ-37"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-unified-persistent-now-playing-bottom-bar-that-slides-up-from-the-bottom-whenever-in-app-playable-content-is-selected-and-remains-visible-accessible-across-all-major-routes-dashboard-and-all-module-pages-without-requiring-the-user-to-switch-apps-screens-to-control-playback",
+      "title": "Create a unified, persistent “Now Playing” bottom bar that slides up from the bottom whenever in-app playable content is selected, and remains visible/accessible across all major routes (Dashboard and all module pages) without requiring the user to switch apps/screens to control playback.",
+      "reqIds": [
+        "REQ-38"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-unified-playback-controls-in-the-now-playing-bar-play-pause-previous-next-and-a-volume-slider-all-in-one-interface-the-bar-must-also-display-the-currently-playing-content-s-icon-and-title-in-english",
+      "title": "Implement unified playback controls in the Now Playing bar: Play/Pause, Previous, Next, and a Volume slider, all in one interface; the bar must also display the currently playing content’s icon and title in English.",
+      "reqIds": [
+        "REQ-39"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-global-playback-state-manager-react-context-provider-or-equivalent-so-the-now-playing-bar-can-control-playback-consistently-across-routes-using-the-existing-audio-playback-logic-and-safe-volume-behavior-already-used-in-audio-pharmacy",
+      "title": "Add a global playback state manager (React context/provider or equivalent) so the Now Playing bar can control playback consistently across routes, using the existing audio playback logic and safe-volume behavior already used in Audio Pharmacy.",
+      "reqIds": [
+        "REQ-40"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-selection-of-in-app-playable-content-with-the-unified-now-playing-bar-so-that-choosing-a-program-e-g-audio-pharmacy-built-in-programs-triggers-the-bar-to-appear-and-updates-its-metadata-ensure-layout-spacing-so-fixed-bottom-ui-elements-now-playing-bar-and-emergency-talk-bar-do-not-overlap-or-obscure-each-other",
+      "title": "Integrate selection of in-app playable content with the unified Now Playing bar so that choosing a program (e.g., Audio Pharmacy built-in programs) triggers the bar to appear and updates its metadata; ensure layout spacing so fixed bottom UI elements (Now Playing bar and Emergency Talk bar) do not overlap or obscure each other.",
+      "reqIds": [
+        "REQ-41"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-bottom-bar-layout-so-the-unified-now-playing-bar-is-never-visually-obscured-by-the-emergency-talk-mute-pause-all-button-on-any-major-route",
+      "title": "Fix the bottom-bar layout so the unified Now Playing bar is never visually obscured by the Emergency Talk (Mute & Pause All) button on any major route.",
+      "reqIds": [
+        "REQ-42"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-bottom-bar-positioning-logic-to-use-a-single-source-of-truth-for-bar-heights-offsets-so-css-e-g-now-playing-bar-bottom-offset-and-react-layout-logic-bottombars-offsets-cannot-drift-and-reintroduce-overlap",
+      "title": "Update the bottom bar positioning logic to use a single source of truth for bar heights/offsets so CSS (e.g., Now Playing bar bottom offset) and React layout logic (BottomBars offsets) cannot drift and reintroduce overlap.",
+      "reqIds": [
+        "REQ-43"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-change-the-emergency-talk-mute-pause-all-ui-so-it-is-not-shown-on-the-intake-welcome-first-selection-experience-and-is-only-shown-once-a-user-has-selected-in-app-media-audio-or-video-this-should-apply-globally-so-that-module-list-screens-e-g-visual-escapes-list-do-not-show-the-emergency-talk-bar-until-a-specific-audio-video-item-is-actually-opened-playing-active",
+      "title": "Change the Emergency Talk (Mute & Pause All) UI so it is not shown on the Intake welcome/first selection experience and is only shown once a user has selected in-app media (audio or video). This should apply globally so that module list screens (e.g., Visual Escapes list) do not show the Emergency Talk bar until a specific audio/video item is actually opened/playing/active.",
+      "reqIds": [
+        "REQ-44"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-kids-easy-selection-mode-for-favorite-cartoons-so-that-when-the-active-intake-profile-is-kids-the-app-offers-one-tap-tiles-buttons-for-popular-cartoons-peppa-pig-shinchan-bluey-paw-patrol-spongebob-squarepants-daniel-tiger-s-neighborhood-that-immediately-launch-curated-kids-content-without-additional-steps",
+      "title": "Add a \"Kids easy selection\" mode for favorite cartoons so that when the active intake profile is Kids, the app offers one-tap tiles/buttons for popular cartoons (Peppa Pig, Shinchan, Bluey, PAW Patrol, SpongeBob SquarePants, Daniel Tiger’s Neighborhood) that immediately launch curated kids content without additional steps.",
+      "reqIds": [
+        "REQ-45"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-centralize-and-define-the-external-urls-used-by-the-kids-easy-selection-cartoon-favorites-in-the-existing-external-links-utility-so-the-favorites-map-is-not-hard-coded-inside-page-components",
+      "title": "Centralize and define the external URLs used by the Kids easy selection cartoon favorites in the existing external links utility so the favorites map is not hard-coded inside page components.",
+      "reqIds": [
+        "REQ-46"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-kids-profile-only-quick-cartoon-picks-favorites-section-in-the-visual-escapes-page-so-the-favorite-cartoon-tiles-have-a-clean-consistent-ipad-friendly-presentation-layout-sizing-spacing-and-visual-treatment-and-do-not-appear-cramped-or-misaligned",
+      "title": "Update the Kids-profile-only \"Quick Cartoon Picks\" favorites section in the Visual Escapes page so the favorite cartoon tiles have a clean, consistent, iPad-friendly presentation (layout, sizing, spacing, and visual treatment) and do not appear cramped or misaligned.",
+      "reqIds": [
+        "REQ-47"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-quick-cartoon-picks-favorites-layout-is-responsive-across-breakpoints-by-using-a-layout-that-preserves-tile-readability-and-tap-targets-e-g-a-stable-grid-at-larger-widths-and-a-safe-alternative-such-as-a-horizontally-scrollable-row-or-adjusted-column-count-at-smaller-widths-without-relying-on-hover-only-affordances",
+      "title": "Ensure the \"Quick Cartoon Picks\" favorites layout is responsive across breakpoints by using a layout that preserves tile readability and tap targets (e.g., a stable grid at larger widths and a safe alternative such as a horizontally scrollable row or adjusted column count at smaller widths), without relying on hover-only affordances.",
+      "reqIds": [
+        "REQ-48"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-keep-the-favorites-ordering-and-metadata-source-of-truth-unchanged-continue-to-render-favorites-from-the-centralized-kidscartoonfavorites-list-and-limit-the-change-to-visual-layout-refinements-only",
+      "title": "Keep the favorites ordering and metadata source of truth unchanged (continue to render favorites from the centralized kidsCartoonFavorites list), and limit the change to visual/layout refinements only.",
+      "reqIds": [
+        "REQ-49"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-regional-radio-hits-module-correct-the-spotify-playlist-links-for-the-hindi-tamil-and-telugu-language-tabs-so-that-1-hindi-does-not-open-english-content-and-2-tamil-and-telugu-do-not-open-a-spotify-page-not-found-error-only-adjust-the-spotify-destinations-for-these-three-languages-keep-all-other-content-and-behavior-unchanged",
+      "title": "In the Regional Radio & Hits module, correct the Spotify playlist links for the Hindi, Tamil, and Telugu language tabs so that (1) Hindi does not open English content, and (2) Tamil and Telugu do not open a Spotify “Page not found” error. Only adjust the Spotify destinations for these three languages; keep all other content and behavior unchanged.",
+      "reqIds": [
+        "REQ-50"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-telugu-language-experience-so-that-selecting-telugu-as-the-app-language-correctly-drives-the-regional-radio-hits-module-the-telugu-tab-must-be-selectable-active-it-must-display-the-telugu-playlists-and-tapping-open-must-launch-valid-telugu-spotify-destinations-no-wrong-language-results-and-no-spotify-error-pages",
+      "title": "Fix the Telugu language experience so that selecting Telugu as the app language correctly drives the Regional Radio & Hits module: the Telugu tab must be selectable/active, it must display the Telugu playlists, and tapping Open must launch valid Telugu Spotify destinations (no wrong-language results and no Spotify error pages).",
+      "reqIds": [
+        "REQ-51"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-calm-voice-welcome-introduction-audio-clip-that-plays-only-the-first-time-the-app-is-opened-after-the-app-has-been-fully-closed-i-e-once-per-fresh-browser-app-session",
+      "title": "Add a calm voice welcome/introduction audio clip that plays only the first time the app is opened after the app has been fully closed (i.e., once per fresh browser/app session).",
+      "reqIds": [
+        "REQ-52"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-ipad-safari-safe-playback-behavior-for-the-voice-welcome-attempt-low-volume-autoplay-and-if-autoplay-is-blocked-show-a-clear-one-tap-inline-control-on-the-intake-welcome-screen-that-lets-the-user-start-the-voice-welcome-with-a-user-gesture-once-started-or-dismissed-do-not-show-the-prompt-again-for-the-remainder-of-the-session",
+      "title": "Implement iPad/Safari-safe playback behavior for the voice welcome: attempt low-volume autoplay, and if autoplay is blocked, show a clear, one-tap inline control on the Intake Welcome screen that lets the user start the voice welcome with a user gesture; once started (or dismissed), do not show the prompt again for the remainder of the session.",
+      "reqIds": [
+        "REQ-53"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-required-static-audio-asset-for-the-calm-voice-welcome-as-a-bundled-frontend-asset-and-load-it-via-the-existing-asset-url-path-conventions-used-by-the-app",
+      "title": "Add the required static audio asset for the calm voice welcome as a bundled frontend asset and load it via the existing asset URL/path conventions used by the app.",
+      "reqIds": [
+        "REQ-54"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-calm-voice-welcome-introduction-begins-playback-automatically-when-the-intake-welcome-screen-step-0-is-first-opened-in-a-fresh-app-session-while-preserving-ipad-safari-autoplay-restrictions-by-falling-back-to-a-user-initiated-play-button-when-autoplay-is-blocked",
+      "title": "Ensure the calm voice welcome/introduction begins playback automatically when the Intake Welcome screen (step 0) is first opened in a fresh app session, while preserving iPad/Safari autoplay restrictions by falling back to a user-initiated Play button when autoplay is blocked.",
+      "reqIds": [
+        "REQ-55"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-intake-welcome-screen-s-welcome-audio-prompt-presentation-to-match-the-provided-screenshot-pattern-an-inline-row-card-with-an-icon-the-text-tap-to-play-a-calming-welcome-message-a-primary-play-button-and-an-x-dismiss-control-this-prompt-must-remain-visually-consistent-with-the-existing-aspen-calm-glassmorphic-theme",
+      "title": "Update the Intake Welcome screen’s welcome-audio prompt presentation to match the provided screenshot pattern: an inline row/card with an icon, the text “Tap to play a calming welcome message”, a primary “Play” button, and an “X” dismiss control; this prompt must remain visually consistent with the existing Aspen Calm glassmorphic theme.",
+      "reqIds": [
+        "REQ-56"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-calm-voice-welcome-introduction-audio-file-exists-in-the-frontend-static-assets-at-the-exact-path-referenced-by-the-app-and-is-loadable-at-runtime-welcome-audio-path-assets-audio-calm-welcome-intro-mp3-resolved-via-getasseturl",
+      "title": "Ensure the calm voice welcome/introduction audio file exists in the frontend static assets at the exact path referenced by the app and is loadable at runtime (WELCOME_AUDIO_PATH = \"assets/audio/calm-welcome-intro.mp3\" resolved via getAssetUrl).",
+      "reqIds": [
+        "REQ-57"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-welcome-audio-loading-playback-logic-so-a-missing-failed-to-load-welcome-audio-does-not-silently-mark-the-welcome-as-played-for-the-session-instead-show-a-visible-inline-error-state-on-the-intake-welcome-step-0-with-a-user-facing-retry-action-in-english",
+      "title": "Update the welcome-audio loading/playback logic so a missing/failed-to-load welcome audio does not silently mark the welcome as \"played\" for the session; instead, show a visible inline error state on the Intake Welcome (step 0) with a user-facing retry action in English.",
+      "reqIds": [
+        "REQ-58"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-adjust-the-intake-welcome-step-0-welcome-audio-prompt-so-users-can-always-manually-start-the-welcome-message-from-an-obvious-inline-control-english-text-even-if-autoplay-was-attempted-the-control-must-remain-consistent-with-the-existing-glassmorphic-theme",
+      "title": "Adjust the Intake Welcome (step 0) welcome-audio prompt so users can always manually start the welcome message from an obvious inline control (English text), even if autoplay was attempted; the control must remain consistent with the existing glassmorphic theme.",
+      "reqIds": [
+        "REQ-59"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-welcome-message-audibly-noticeable-while-respecting-safe-volume-lock-by-revising-the-welcome-audio-initial-volume-behavior-to-avoid-being-effectively-silent-on-typical-ipad-volume-settings",
+      "title": "Make the welcome message audibly noticeable while respecting Safe-Volume Lock by revising the welcome-audio initial volume behavior to avoid being effectively silent on typical iPad volume settings.",
+      "reqIds": [
+        "REQ-60"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-calm-voice-welcome-introduction-audio-feature-from-the-intake-welcome-screen-step-0-do-not-initialize-autoplay-or-render-any-welcome-audio-ui-play-dismiss-retry-error-banner-playing-indicator-and-ensure-the-rest-of-the-intake-flow-remains-unchanged",
+      "title": "Remove the calm voice welcome/introduction audio feature from the Intake Welcome screen (step 0): do not initialize, autoplay, or render any welcome-audio UI (Play/Dismiss/Retry/error banner/playing indicator), and ensure the rest of the Intake flow remains unchanged.",
+      "reqIds": [
+        "REQ-61"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-or-fully-disable-the-welcome-audio-hook-and-related-session-persistence-so-it-is-not-referenced-anywhere-in-the-frontend-codebase-including-removal-of-the-sessionstorage-key-usage-for-welcome-audio-and-eliminate-any-now-unused-imports-icons-created-solely-for-the-welcome-audio-ui",
+      "title": "Remove or fully disable the welcome-audio hook and related session persistence so it is not referenced anywhere in the frontend codebase (including removal of the sessionStorage key usage for welcome audio) and eliminate any now-unused imports/icons created solely for the welcome-audio UI.",
+      "reqIds": [
+        "REQ-62"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-refine-the-app-opening-flow-on-route-so-the-first-usable-intake-selection-ui-is-available-immediately-on-load-instead-of-requiring-an-extra-delay-step-before-the-user-can-start-selecting",
+      "title": "Refine the app opening flow on route \"/\" so the first usable intake selection UI is available immediately on load, instead of requiring an extra delay step before the user can start selecting.",
+      "reqIds": [
+        "REQ-63"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-intake-step-initialization-logic-so-the-app-resumes-the-earliest-incomplete-intake-step-based-on-existing-sessionstorage-intake-state-as-stored-by-useintakestate-minimizing-time-to-first-action-for-returning-sessions",
+      "title": "Update the intake step initialization logic so the app resumes the earliest incomplete intake step based on existing sessionStorage intake state (as stored by useIntakeState), minimizing time-to-first-action for returning sessions.",
+      "reqIds": [
+        "REQ-64"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-perceived-load-time-on-the-opening-intake-screen-by-ensuring-that-non-critical-visuals-e-g-the-large-logo-image-do-not-block-rendering-or-interaction-with-the-first-selection-ui",
+      "title": "Improve perceived load time on the opening intake screen by ensuring that non-critical visuals (e.g., the large logo image) do not block rendering or interaction with the first selection UI.",
+      "reqIds": [
+        "REQ-65"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-topbar-front-back-display-mode-toggle-so-it-works-reliably-on-the-dashboard-page-route-dashboard-tapping-back-must-immediately-switch-the-current-route-s-display-mode-to-back-and-visibly-update-the-ui-including-the-toggle-s-active-state-and-tapping-front-must-immediately-switch-back-and-visibly-update-the-ui",
+      "title": "Fix the TopBar Front/Back display-mode toggle so it works reliably on the Dashboard page (route \"/dashboard\"): tapping \"Back\" must immediately switch the current route’s display mode to Back and visibly update the UI (including the toggle’s active state), and tapping \"Front\" must immediately switch back and visibly update the UI.",
+      "reqIds": [
+        "REQ-66"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-patient-facing-audiobooks-module-with-a-dedicated-route-and-a-dashboard-tile-entry-and-present-separate-sections-for-kids-and-adults-with-curated-categories-short-stories-light-fiction-inspirational-comedy-travel-memoirs",
+      "title": "Add a new patient-facing \"Audiobooks\" module with a dedicated route and a dashboard tile entry, and present separate sections for Kids and Adults with curated categories: Short stories, Light fiction, Inspirational, Comedy, Travel memoirs.",
+      "reqIds": [
+        "REQ-67"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-centralize-all-audiobooks-external-destinations-in-the-existing-external-links-utility-with-separate-kids-vs-adults-mappings-for-the-categories-short-stories-light-fiction-inspirational-comedy-travel-memoirs",
+      "title": "Centralize all Audiobooks external destinations in the existing external links utility, with separate Kids vs Adults mappings for the categories: short-stories, light-fiction, inspirational, comedy, travel-memoirs.",
+      "reqIds": [
+        "REQ-68"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-audiobooks-module-ui-to-more-clearly-differentiate-the-kids-vs-adults-sections-while-keeping-all-user-facing-text-in-english-and-preserving-the-existing-glassmorphic-aspen-calm-theme",
+      "title": "Update the Audiobooks module UI to more clearly differentiate the Kids vs Adults sections while keeping all user-facing text in English and preserving the existing glassmorphic Aspen Calm theme.",
+      "reqIds": [
+        "REQ-69"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-audiobooks-page-default-to-the-most-appropriate-audience-tab-based-on-the-current-intake-profile-kids-profile-defaults-to-the-kids-tab-all-other-profiles-default-to-the-adults-tab-while-still-allowing-the-user-to-manually-switch-tabs",
+      "title": "Make the Audiobooks page default to the most appropriate audience tab based on the current intake profile (Kids profile defaults to the Kids tab; all other profiles default to the Adults tab), while still allowing the user to manually switch tabs.",
+      "reqIds": [
+        "REQ-70"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-refine-audiobooks-category-tiles-to-be-more-ipad-friendly-and-consistent-ensure-large-tap-targets-stable-grid-layout-clear-hierarchy-title-description-and-an-obvious-external-open-affordance-and-no-reliance-on-hover-only-cues",
+      "title": "Refine Audiobooks category tiles to be more iPad-friendly and consistent: ensure large tap targets, stable grid layout, clear hierarchy (title, description, and an obvious external-open affordance), and no reliance on hover-only cues.",
+      "reqIds": [
+        "REQ-71"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-harden-audiobooks-category-opening-behavior-if-a-category-url-is-missing-undefined-for-the-selected-audience-show-a-visible-non-blocking-error-message-in-english-instead-of-failing-silently",
+      "title": "Harden Audiobooks category opening behavior: if a category URL is missing/undefined for the selected audience, show a visible, non-blocking error message in English instead of failing silently.",
+      "reqIds": [
+        "REQ-72"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-topbar-displaymodetoggle-on-the-dashboard-page-so-selecting-the-back-mode-works-reliably-and-is-immediately-reflected-in-the-ui-on-that-page-active-selected-state-visible-style-change",
+      "title": "Fix the TopBar DisplayModeToggle on the Dashboard page so selecting the \"Back\" mode works reliably and is immediately reflected in the UI on that page (active/selected state + visible style change).",
+      "reqIds": [
+        "REQ-73"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-second-dashboard-local-front-back-display-mode-toggle-on-route-dashboard-as-shown-in-the-provided-screenshot-that-reliably-switches-the-dashboard-into-back-mode-when-tapped-independent-of-the-existing-topbar-displaymodetoggle",
+      "title": "Add a second, Dashboard-local Front/Back display-mode toggle on route \"/dashboard\" (as shown in the provided screenshot) that reliably switches the Dashboard into \"Back\" mode when tapped, independent of the existing TopBar DisplayModeToggle.",
+      "reqIds": [
+        "REQ-74"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-new-dashboard-local-toggle-uses-robust-pointer-touch-handling-so-that-back-mode-selection-works-reliably-on-mobile-safari-chrome-no-missed-taps-without-breaking-the-existing-topbar-toggle-behavior",
+      "title": "Ensure the new Dashboard-local toggle uses robust pointer/touch handling so that Back-mode selection works reliably on mobile Safari/Chrome (no missed taps), without breaking the existing TopBar toggle behavior.",
+      "reqIds": [
+        "REQ-75"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-keep-all-user-facing-text-for-the-new-toggle-in-english-and-ensure-accessibility-labels-exist-for-both-toggle-buttons-front-and-back",
+      "title": "Keep all user-facing text for the new toggle in English and ensure accessibility labels exist for both toggle buttons (\"Front\" and \"Back\").",
+      "reqIds": [
+        "REQ-76"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-there-is-a-clearly-discoverable-thumb-friendly-in-app-back-navigation-control-previous-page-on-all-non-intake-routes-and-that-it-is-visually-and-semantically-distinct-from-the-front-back-display-mode-toggle-so-users-do-not-confuse-the-two-use-english-for-any-visible-labels",
+      "title": "Ensure there is a clearly discoverable, thumb-friendly in-app Back navigation control (previous page) on all non-intake routes, and that it is visually and semantically distinct from the Front/Back display-mode toggle (so users do not confuse the two). Use English for any visible labels.",
+      "reqIds": [
+        "REQ-77"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-back-navigation-interaction-reliability-on-touch-devices-by-updating-the-back-navigation-control-to-use-robust-pointer-touch-event-handling-so-taps-are-not-missed-on-ipad-mobile-safari-chrome-while-preserving-existing-styling-theme",
+      "title": "Fix Back navigation interaction reliability on touch devices by updating the Back navigation control to use robust pointer/touch event handling (so taps are not missed on iPad/mobile Safari/Chrome) while preserving existing styling/theme.",
+      "reqIds": [
+        "REQ-78"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-verify-and-correct-back-navigation-behavior-so-that-pressing-the-back-navigation-control-returns-to-the-previous-in-app-route-when-available-if-no-valid-in-app-history-exists-fall-back-to-the-existing-route-based-defaults-dashboard-for-modules-intake-for-dashboard",
+      "title": "Verify and correct Back navigation behavior so that pressing the Back navigation control returns to the previous in-app route when available; if no valid in-app history exists, fall back to the existing route-based defaults (Dashboard for modules; Intake for Dashboard).",
+      "reqIds": [
+        "REQ-79"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-thumb-friendly-home-icon-button-to-the-topbar-visually-distinct-from-the-existing-back-arrow-and-the-front-back-display-mode-toggle-that-always-returns-the-user-to-the-main-home-intake-profile-selection-screen-route-step-0-kids-teens-adults-seniors-selection",
+      "title": "Add a thumb-friendly Home icon/button to the TopBar (visually distinct from the existing Back arrow and the Front/Back display-mode toggle) that always returns the user to the main Home/Intake profile selection screen (route \"/\", step 0: Kids/Teens/Adults/Seniors selection).",
+      "reqIds": [
+        "REQ-80"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-that-activating-the-new-home-control-reliably-shows-the-intake-profile-selection-ui-instead-of-immediately-redirecting-back-to-the-dashboard-by-clearing-the-persisted-intake-state-before-navigating-to-route",
+      "title": "Ensure that activating the new Home control reliably shows the Intake profile selection UI instead of immediately redirecting back to the Dashboard by clearing the persisted intake state before navigating to route \"/\".",
+      "reqIds": [
+        "REQ-81"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create Phase 1 Intake flow: profile selection (Kids/Teens/Adults/Seniors), anxiety slider (1-10) with 7+ forced recommendations, vibe selector (Escape/Focus/Nurture), plus Mood Gate (Relax/Distracted/Listen)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Add language selection via \"Language Globe\" icon (Kannada, Hindi, Telugu, Tamil, English) that drives UI and regional music preferences",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Build Phase 2 main dashboard with multi-channel tiles: Audio Pharmacy, Curated/Regional Music, Cinema/OTT, Visual Escapes, Kids-safe content",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Implement Audio Pharmacy content options optimized for Bose: Sonic Shield (3-hr brown noise loop), Deep Zen (5Hz binaural), Garden Escape (432Hz rainforest+piano)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Integrate music services (Spotify/Apple Music and/or YouTube Music) with playlists by age and language (e.g., Modern Chill, Retro Comfort, Latest Kannada Hits, Bollywood Classics) including upbeat/active distraction options",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Integrate video/visual sources: Virtual Window 4K landscapes, Ocean/Nature escapes, Kids TV via safe-filtered YouTube Kids, and OTT web-view/API hooks for Netflix, Amazon Prime Video, Disney+ Hotstar with separate app icons",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Add \"Continue Watching\" shortcut for frequent patients within the Cinema/OTT tile",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Add clinical safety controls: password-protected Safe-Volume Lock (master volume cap) and one-touch Emergency Talk/Interruption (mute & pause) button",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Create hidden staff dashboard to monitor connected Bose headset battery levels and manage/toggle premium subscriptions and OTT accounts",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Enable offline/\"download on the tab\" access for selected media where applicable",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Design onboarding/welcome messaging with clear guides so patients can make selections quickly (often before sitting in the chair), optimized for one-finger use while reclining",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "Backend: define Motoko data models and APIs needed to support the prototype’s state and staff settings (intake selections, language preference, volume cap, staff passcode check, premium flags, enabled providers, headset battery list). Ensure the backend remains a single actor and supports basic CRUD for staff-managed settings.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Remove any patient sign-in options from the prototype (no authentication entry points in Phase 1/2 UX)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Support Visual Escapes playback from iPad-accessible video sources (e.g., bundled/local files) so Virtual Window and Ocean/Nature can play directly on-device",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-26",
+      "summary": "Fix Regional Radio & Hits Spotify links so each language tile opens the correct Spotify playlist/page for that language (validate and correct all URLs)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-27",
+      "summary": "Populate Cinema/OTT module with working provider options (Netflix, Amazon Prime Video, Disney+ Hotstar, YouTube) so tiles are not empty and launch correctly",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-28",
+      "summary": "Add options in Audio Pharmacy to access on-device saved music (local library/files) and a curated Spotify folder/collection as fallback content sources",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-31",
+      "summary": "Extend the backend OTT provider model and staff settings so YouTube can be enabled/disabled alongside Netflix, Prime Video, and Hotstar, and ensure existing deployments upgrade safely without losing the current enabled provider list.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-32",
+      "summary": "Add Audio Pharmacy fallback sources so Deep Zen, Garden Escape, and Sonic Shield can open either (a) locally stored iPad audio files or (b) curated YouTube links/search presets (e.g., 432Hz, 4–5Hz binaural, brown noise, nature sounds) when local playback is unavailable",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-33",
+      "summary": "Add per-page Back/Front toggle switches (a UI control on each page to switch between Back and Front modes/views)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-34",
+      "summary": "UI: Add premium-themed selected-state styling (glow/highlight) for intake profile switches (Kids/Adults/etc.) and all selected buttons across the app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-35",
+      "summary": "Add Bose QuietComfort Ultra Web Bluetooth pairing UX: Bluetooth icon triggers pairing, real-time connection status in top bar with animated \"connecting\" -> \"connected\" indicator",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-36",
+      "summary": "Add unified, persistent Playback Controls: a bottom \"Now Playing\" bar that slides up when content is selected, shows current content (icon + title), and provides play/pause, previous/next, and a volume slider; remains accessible throughout the procedure and visually integrates with the existing dashboard theme.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-37",
+      "summary": "Change Emergency Talk (Mute & Pause) availability so it is hidden/disabled on the first selection/intake page and only becomes available once an audio or video selection is made (i.e., when media is selected/playing).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-38",
+      "summary": "Add a Kids section \"easy selection\" mode with one-click favorite cartoon picks (e.g., Peppa Pig, Shinchan, Bluey, PAW Patrol, SpongeBob SquarePants, Daniel Tiger’s Neighborhood) to quickly launch curated kids content.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-39",
+      "summary": "Fix/refine the UI presentation of the Kids easy-selection \"favorite cartoons\" quick-select tiles (layout, sizing, ordering, visual treatment) so the favourites appear correctly on screen",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-40",
+      "summary": "Update unified Now Playing bottom bar behavior so it automatically disappears when the user exits/deselects playable content (i.e., when no specific audio/video is selected/active/playing).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-41",
+      "summary": "Refine the app opening timing/flow (post-voice-intro removal), including when the initial Intake/Welcome content appears and how quickly the first usable selection UI is available",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-42",
+      "summary": "Add an Audiobooks module with separate Kids vs Adults sections and curated categories (short stories, light fiction, inspirational, comedy, travel memoirs)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-43",
+      "summary": "Add an alternate/secondary Back-mode toggle control for pages where the existing Back/Front toggle still fails, ensuring Back mode can be reliably activated on the affected page(s).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-44",
+      "summary": "Add a persistent Home icon/button that returns users to the main Home/Intake profile selection screen (Kids/Adults selection), especially when the existing \"<\" back toggle does not navigate correctly on a page.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Aspen Calm",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

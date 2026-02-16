@@ -1,0 +1,45 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-a-thumb-friendly-home-icon-button-to-the-topbar-visually-distinct-from-the-existing-back-arrow-and-the-front-back-display-mode-toggle-that-always-returns-the-user-to-the-main-home-intake-profile-selection-screen-route-step-0-kids-teens-adults-seniors-selection",
+      "featureTitle": "Add a thumb-friendly Home icon/button to the TopBar (visually distinct from the existing Back arrow and the Front/Back display-mode toggle) that always returns the user to the main Home/Intake profile selection screen (route \"/\", step 0: Kids/Teens/Adults/Seniors selection).",
+      "files": [
+        "frontend/src/components/HomeNavButton.tsx",
+        "frontend/src/components/TopBar.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-80"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-that-activating-the-new-home-control-reliably-shows-the-intake-profile-selection-ui-instead-of-immediately-redirecting-back-to-the-dashboard-by-clearing-the-persisted-intake-state-before-navigating-to-route",
+      "featureTitle": "Ensure that activating the new Home control reliably shows the Intake profile selection UI instead of immediately redirecting back to the Dashboard by clearing the persisted intake state before navigating to route \"/\".",
+      "files": [
+        "frontend/src/components/HomeNavButton.tsx",
+        "frontend/src/hooks/useIntakeState.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-81"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

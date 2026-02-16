@@ -1,0 +1,58 @@
+{
+  "kind": "build_request",
+  "title": "Add Home icon to return to Intake profile selection and reset intake state",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-80",
+      "text": "Add a thumb-friendly Home icon/button to the TopBar (visually distinct from the existing Back arrow and the Front/Back display-mode toggle) that always returns the user to the main Home/Intake profile selection screen (route \"/\", step 0: Kids/Teens/Adults/Seniors selection).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Create a home page icon because the <  toggle button isn't going anywhere in this page."
+        ]
+      },
+      "acceptanceCriteria": [
+        "On any non-intake route (e.g., /dashboard, /audio-pharmacy, /regional-radio, /cinema, /visual-escapes, /audiobooks, /now-playing/*, /staff), a Home icon/button is visible in the TopBar.",
+        "The Home control is clearly not the same as the Back arrow (different icon + accessible label).",
+        "All user-facing text and aria-labels for the Home control are in English (e.g., aria-label=\"Go to home\").",
+        "The Home control uses robust pointer/touch handling (pointer events) so taps are not missed on iPad/mobile Safari/Chrome."
+      ]
+    },
+    {
+      "id": "REQ-81",
+      "text": "Ensure that activating the new Home control reliably shows the Intake profile selection UI instead of immediately redirecting back to the Dashboard by clearing the persisted intake state before navigating to route \"/\".",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Im not able to go back to the main home page ( kids adults selection section)from this current page ."
+        ]
+      },
+      "acceptanceCriteria": [
+        "When the user taps the Home icon/button from the Dashboard, the app navigates to route \"/\" and displays the Step 0 profile selection (Kids/Teens/Adults/Seniors) without auto-redirecting to \"/dashboard\".",
+        "After tapping Home, previously selected intake values (profile/mood/vibe/anxiety) are cleared for the current session (sessionStorage intake key is removed/reset) so the user can reselect.",
+        "No backend changes are required for Home navigation and intake reset."
+      ]
+    }
+  ],
+  "constraints": [
+    "Frontend immutable paths must not be edited: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui.",
+    "Keep the existing Aspen Calm glassmorphic theme and Tailwind styling conventions.",
+    "Do not introduce new backend canisters or external services; keep navigation purely client-side."
+  ],
+  "nonGoals": [
+    "Do not redesign the overall navigation system or routing structure beyond adding a Home control.",
+    "Do not change module content, playback behavior, or display-mode toggle behavior as part of this request (except ensuring the new Home control is distinct and reliable).",
+    "Do not add new authentication or sign-in flows."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

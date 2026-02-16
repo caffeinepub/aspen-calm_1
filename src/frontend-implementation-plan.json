@@ -1,0 +1,50 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Add Home control in TopBar to return to Intake step 0 and reset intake session state",
+  "requirements": [
+    {
+      "id": "REQ-80",
+      "summary": "Add a thumb-friendly Home icon/button in the TopBar (distinct from Back and display-mode toggle) that always navigates to the Intake profile selection route ('/').",
+      "acceptanceCriteria": [
+        "On any non-intake route (e.g., /dashboard, /audio-pharmacy, /regional-radio, /cinema, /visual-escapes, /audiobooks, /now-playing/*, /staff), a Home icon/button is visible in the TopBar.",
+        "The Home control is clearly not the same as the Back arrow (different icon + accessible label).",
+        "All user-facing text and aria-labels for the Home control are in English (e.g., aria-label=\"Go to home\").",
+        "The Home control uses robust pointer/touch handling (pointer events) so taps are not missed on iPad/mobile Safari/Chrome."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/HomeNavButton.tsx",
+          "operation": "create",
+          "description": "Create a dedicated Home navigation control (e.g., using a Home icon) with a large, thumb-friendly hit target, English accessible labeling (aria-label=\"Go to home\"), and robust activation via pointer events + keyboard activation. Use TanStack Router navigation to go to '/'. Keep styling consistent with the existing glassmorphic + Tailwind conventions."
+        },
+        {
+          "path": "frontend/src/components/TopBar.tsx",
+          "operation": "modify",
+          "description": "Wire the new HomeNavButton into the TopBar layout so it is visible on all non-intake routes (pathname !== '/'), visually distinct from the existing BackNavButton and DisplayModeToggle, and positioned to be easy to tap. Ensure it is not shown on the intake route ('/')."
+        }
+      ]
+    },
+    {
+      "id": "REQ-81",
+      "summary": "Ensure Home navigation reliably shows Intake step 0 by clearing persisted intake state (sessionStorage) before navigating to '/'.",
+      "acceptanceCriteria": [
+        "When the user taps the Home icon/button from the Dashboard, the app navigates to route \"/\" and displays the Step 0 profile selection (Kids/Teens/Adults/Seniors) without auto-redirecting to \"/dashboard\".",
+        "After tapping Home, previously selected intake values (profile/mood/vibe/anxiety) are cleared for the current session (sessionStorage intake key is removed/reset) so the user can reselect.",
+        "No backend changes are required for Home navigation and intake reset."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useIntakeState.ts",
+          "operation": "modify",
+          "description": "Expose a reusable, non-hook helper for clearing the persisted intake session state (remove/reset the sessionStorage intake key used by the intake flow). Keep the existing hook behavior intact while enabling other UI (TopBar/Home control) to clear intake state before navigation."
+        },
+        {
+          "path": "frontend/src/components/HomeNavButton.tsx",
+          "operation": "modify",
+          "description": "Update HomeNavButton to clear the persisted intake state (via the shared helper from useIntakeState) before performing client-side navigation to '/'. Ensure the clear happens synchronously prior to navigation to prevent IntakeFlow from immediately redirecting back to '/dashboard' due to stale persisted state."
+        }
+      ]
+    }
+  ]
+}
